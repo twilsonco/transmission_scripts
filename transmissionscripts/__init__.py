@@ -59,6 +59,13 @@ CONFIG = {
             'min_time': int((3600 * 240) * SEED_TIME_BUFFER),
             'max_ratio': 2.0
         }
+    },
+    'NAMERULES': {
+#        'regex': {
+#            'max_ratio': 0,
+#            'min_time': 0,
+#            'name': 'rule name'
+#        }
     }
 }
 
@@ -131,10 +138,10 @@ def find_rule_set(torrent):
     :return: A matching rule set if it exists, otherwise a default rule set
     :rtype: dict
     """
-    from re import match
+    from re import search
     
     for key in CONFIG['NAMERULES']:
-        if match(key, torrent.name):
+        if search(key, torrent.name):
             return CONFIG['NAMERULES'][key]
     
     for key in CONFIG['RULES']:
