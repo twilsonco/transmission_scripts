@@ -123,13 +123,20 @@ def colored(msg, color=None, on_color=None, attrs=None):
 
 def find_rule_set(torrent):
     """ Return the rule set associated with the torrent.
+    First search for NAMERULES using regex based on torrent name,
+    then if nothing matches, move on to tracker-based cheking.
 
     :param torrent: Torrent instance to search
     :type torrent: transmissionrpc.Torrent
     :return: A matching rule set if it exists, otherwise a default rule set
     :rtype: dict
     """
-
+    from re import match
+    
+    for key in CONFIG['NAMERULES']:
+        if match(key, torrent.name):
+            return CONFIG['NAMERULES'][key]
+    
     for key in CONFIG['RULES']:
         for tracker in torrent.trackers:
             if key in tracker['announce'].lower():
