@@ -586,9 +586,9 @@ def clean_min_time_ratio(client):
         if torrent.error or torrent.status != "seeding":
             continue
         rule_set = find_rule_set(torrent)
-        if torrent.ratio > rule_set['max_ratio']:
+        if rule_set['max_ratio'] > 0 and torrent.ratio > rule_set['max_ratio']:
             remove_torrent(client, torrent, "max_ratio threshold passed", dry_run=False)
-        if torrent.secondsSeeding > rule_set['min_time']:
+        if rule_set['min_time'] > 0 and torrent.secondsSeeding > rule_set['min_time']:
             remove_torrent(client, torrent, "min_time threshold passed", dry_run=False)
 
 
